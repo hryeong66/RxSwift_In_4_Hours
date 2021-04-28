@@ -34,12 +34,47 @@ class ViewController: UIViewController {
 
     // MARK: SYNC
 
+//    func downloadJson(_ url: String) -> Observable<String?>{
+//        //1. 비동기로 생기는 데이터를 Observable로 감싸서 리턴하는 방법
+//        //여기있는 Hello, world가 각각 event의 next로 들어올것이다.
+//        return Observable.create() { emitter in
+//            emitter.onNext("hello")
+//            emitter.onNext("world")
+//            emitter.onCompleted()
+//
+//            return Disposables.create()
+//        }
+//    }
+    
+    func downloadJson(_ url: String) -> Observable<String?>{
+        //1. 비동기로 생기는 데이터를 Observable로 감싸서 리턴하는 방법
+        //여기있는 Hello, world가 각각 event의 next로 들어올것이다.
+        return Observable.create() { emitter in
+            let utl
+            
+            emitter.onNext("hello")
+            emitter.onNext("world")
+            emitter.onCompleted()
+            
+            return Disposables.create()
+        }
+    }
+    
+    
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
 
     @IBAction func onLoad() {
         editView.text = ""
         setVisibleWithAnimation(activityIndicator, true)
 
+        let observable = downloadJson(MEMBER_LIST_URL)
+        
+        
+        observable.subscribe{ event in
+            
+            
+        }
+        
         let url = URL(string: MEMBER_LIST_URL)!
         let data = try! Data(contentsOf: url)
         let json = String(data: data, encoding: .utf8)
